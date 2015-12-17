@@ -15,3 +15,13 @@ class Customer(Base):
     
     def __repr__(self):
         return "<User('%s', '%s')>" % (self.name, self.phone)
+
+    @staticmethod
+    def decode(data):
+        """
+        helper method to decode json data to Customer object 
+        """
+        name = data['name']
+        phone = data['phone']
+        address = data['address']
+

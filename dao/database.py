@@ -15,7 +15,7 @@ from sqlalchemy.ext.declarative import declarative_base
 # Base = declarative_base()
 # Base.query = db_session.query_property()
 
-engine = create_engine('mysql://root:justdoit@localhost/flaskr_store')
+engine = create_engine('mysql://root:justdoit@localhost/pytest')
 session_factory  = sessionmaker(bind=engine)
 
 # use scoped_session to link the scope of a Session with a web request 
