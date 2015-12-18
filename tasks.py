@@ -21,7 +21,6 @@ def all():
 def unit():
     # initialize logging config
     logging.config.dictConfig(app_settings.LOGGING)
-
     # add -x to enable print
     #pytest.main(['-x','tests/unit'])
     pytest.main('tests/unit')

@@ -1,3 +1,5 @@
+http://www.rmunn.com/sqlalchemy-tutorial/tutorial.html
+
 Web Server          Web Framework        SQLAlchemy ORM Code
 --------------      --------------       ------------------------------
 startup        ->   Web framework        # Session registry is established
