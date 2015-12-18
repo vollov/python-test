@@ -28,3 +28,94 @@ web request    ->   web request     ->   # The registry is *optionally*
                     sends output      <-
 outgoing web    <-
 response
+
+normal session
+=============================================
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
+
+engine = create_engine('mysql://root:justdoit@localhost/pytest')
+engine = create_engine('postgresql://me@localhost/mydb',
+                       pool_size=20, max_overflow=0)
+
+Session = sessionmaker(bind=engine)
+Base = declarative_base()
+
+class Customer(Base):
+    __tablename__ = 'customer'
+
+    id = Column(String(20), primary_key=True)
+    name = Column(String(16))
+    phone = Column(String(12))
+    address = Column(String(125))
+
+    def __repr__(self):
+        return "<User('%s', '%s')>" % (self.name, self.phone)
+
+myobject = Customer(name='dave', phone='416-223-8652', address='9 King ST')
+session.add(myobject)
+
+
+session.add_all([
+...     User(name='wendy', fullname='Wendy Williams', password='foobar'),
+...     User(name='mary', fullname='Mary Contrary', password='xxg527'),
+...     User(name='fred', fullname='Fred Flinstone', password='blah')])
+
+session.commit()
+
+
+class ThingTwo(object):
+    def go(self, session):
+        session.query(Widget).update({"q": 18})
+
+def run_my_program():
+    session = Session()
+    try:
+        ThingOne().go(session)
+        ThingTwo().go(session)
+
+        session.commit()
+    except:
+        session.rollback()
+        raise
+    finally:
+        session.close()
+
+
+Thread loacal session
+=============================================
+
+from sqlalchemy import create_engine
+from sqlalchemy.orm import scoped_session, sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
+
+engine = create_engine('mysql://root:justdoit@localhost/pytest')
+session_factory  = sessionmaker(bind=engine)
+Session = scoped_session(session_factory)
+Base = declarative_base()
+
+Base.query = Session.query_property()
+
+class Customer(Base):
+    __tablename__ = 'customer'
+    
+    id = Column(String(20), primary_key=True)
+    name = Column(String(16))
+    phone = Column(String(12))
+    address = Column(String(125))
+    
+    def __repr__(self):
+        return "<User('%s', '%s')>" % (self.name, self.phone)
+
+# get singleton session
+session1 = Session()
+session2 = Session()
+# (session1 is session2) returns true
+
+# remove session when web request termiates
+session1.remove()
+
+myobject = Customer(name='dave', phone='416-223-8652', address='9 King ST')
+session2.add(myobject)
+session2.commit()
