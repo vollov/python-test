@@ -1,5 +1,7 @@
 from invoke import task
-import pytest
+import pytest, logging.config
+
+import settings as app_settings
 
 @task()
 def clean():
@@ -17,4 +19,9 @@ def all():
 
 @task(clean)
 def unit():
+    # initialize logging config
+    logging.config.dictConfig(app_settings.LOGGING)
+
+    # add -x to enable print
+    #pytest.main(['-x','tests/unit'])
     pytest.main('tests/unit')
