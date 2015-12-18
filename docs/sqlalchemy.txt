@@ -1,0 +1,30 @@
+Web Server          Web Framework        SQLAlchemy ORM Code
+--------------      --------------       ------------------------------
+startup        ->   Web framework        # Session registry is established
+                    initializes          Session = scoped_session(sessionmaker())
+
+incoming
+web request    ->   web request     ->   # The registry is *optionally*
+                    starts               # called upon explicitly to create
+                                         # a Session local to the thread and/or request
+                                         Session()
+
+                                         # the Session registry can otherwise
+                                         # be used at any time, creating the
+                                         # request-local Session() if not present,
+                                         # or returning the existing one
+                                         Session.query(MyClass) # ...
+
+                                         Session.add(some_object) # ...
+
+                                         # if data was modified, commit the
+                                         # transaction
+                                         Session.commit()
+
+                    web request ends  -> # the registry is instructed to
+                                         # remove the Session
+                                         Session.remove()
+
+                    sends output      <-
+outgoing web    <-
+response
