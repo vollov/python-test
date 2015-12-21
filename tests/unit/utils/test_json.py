@@ -1,4 +1,3 @@
-
 '''
 Test load json from local file
 '''

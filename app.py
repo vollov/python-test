@@ -12,6 +12,7 @@ def run():
 
     OrderService.get_service_name()
     AccountService.get_service_name()
+    OrderService.get_path()
 
 if __name__ == '__main__':
     run()
