@@ -41,6 +41,9 @@ engine = create_engine('mysql://root:justdoit@localhost/pytest')
 engine = create_engine('postgresql://me@localhost/mydb',
                        pool_size=20, max_overflow=0)
 
+#Session = sessionmaker()
+#Session.configure(bind=engine)  # once engine is available
+
 Session = sessionmaker(bind=engine)
 Base = declarative_base()
 

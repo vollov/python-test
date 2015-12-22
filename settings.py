@@ -14,8 +14,9 @@ if UNIX:
 else:
     RESOURCE_ROOT='c:/opt/var/www/pytest/'
 
-
-DATABASE_URL = 'mysql://root:justdoit@localhost/pytest'
+PROD_DB='pytest'
+TEST_DB='pytest_test'
+DATABASE_URL = 'mysql://root:justdoit@localhost/'
     
 LOGGING = {
     'version': 1,

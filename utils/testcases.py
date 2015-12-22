@@ -23,8 +23,11 @@ class TestCase(unittest.TestCase):
         if self.fixtures:
             logger.debug('TestCase.setUp() -> fixtures=' + ','.join(self.fixtures))
 
-
+        #TODO: add code here to populate test database with fixtures
+ 
     def tearDown(self):
         logger.debug('TestCase.tearDown()')
         if self.fixtures:
             logger.debug('TestCase.tearDown() -> fixtures=' + ','.join(self.fixtures))
+
+        #TODO: add code here to clean test database with fixtures
