@@ -45,6 +45,8 @@ engine = create_engine('postgresql://me@localhost/mydb',
 #Session.configure(bind=engine)  # once engine is available
 
 Session = sessionmaker(bind=engine)
+session = Session()
+
 Base = declarative_base()
 
 class Customer(Base):

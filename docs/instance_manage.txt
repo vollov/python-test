@@ -1,0 +1,22 @@
+making the variable static.
+
+When you write declarations like this:
+
+class Hand:
+    cards = []
+
+that variable (cards) is associated with the class, not with the instance. To make an analogy to Java, every statement in a Python class that isn't part of a method of that class basically runs in a static initializer. You could almost think of it like this:
+
+class Hand {
+    static {
+        cards = new object[];
+    }
+}
+
+(merely a rough analogy, of course)
+
+To create an instance variable in Python, you have to set it as an attribute of the instance, which requires you to wait until you have a reference to the instance. In practice, this means you initialize it in the constructor, like so:
+
+class Hand:
+    def __init__(self):
+        self.cards = []

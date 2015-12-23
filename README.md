@@ -9,6 +9,8 @@ http://pytest.org/latest/usage.html
 tree -f -I "bin|unitTest" -P "*.[ch]|*.[ch]pp." your_dir/
 tree -I "*.pyc"
 
+CREATE DATABASE pytest_test CHARACTER SET utf8;
+
 ##manage test fixtures
 class ProductTestCase(TestCase):
     fixtures = ['user.json', 'store.json']

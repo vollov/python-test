@@ -3,7 +3,15 @@ import os, logging
 #BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 BASE_DIR = os.path.dirname(os.path.realpath(__file__))
 
-print 'BASE_DIR={0}'.format(BASE_DIR)
+#print 'BASE_DIR={0}'.format(BASE_DIR)
+
+# set production mode
+PROD = False
+
+if not PROD:
+    DB_NAME='pytest_test'
+else:
+    DB_NAME='pytest'
 
 DEBUG = True
 UNIX = True
