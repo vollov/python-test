@@ -1,6 +1,8 @@
 from dao.db import SessionManager, Base
 import logging, unittest
 
+from dao.db import SessionManager, Base
+
 logger=logging.getLogger('pytest')
 
 class Customer(Base):
@@ -34,7 +36,7 @@ class TestSessionManager(unittest.TestCase):
         2) create customer table
         3) insert data to customer table
         '''
-        pass
+        cls.session = SessionManager.get_session() 
 
     @classmethod
     def tearDownClass(cls):
