@@ -13,6 +13,8 @@ class SessionManager():
     #only need set db for once
      
     session = SessionManager.get_session()
+    create_all(bind=None, tables=None, checkfirst=True)
+    drop_all(bind=None, tables=None, checkfirst=True)
     '''
 
     #class level instance, gloable shared instances
@@ -36,3 +38,4 @@ class SessionManager():
             Session = sessionmaker(bind=cls.engine)
             cls.session = Session()
         return cls.session
+
