@@ -39,3 +39,15 @@ class SessionManager():
             cls.session = Session()
         return cls.session
 
+import uuid
+
+class KeyUtil:
+    '''Utility class for pirmary key management'''
+    
+    @staticmethod
+    def get_uuid4():
+        '''get uuid4 as a char(32) so it can be stored as binary(16)'''
+        return uuid.uuid4().hex
+         
+        
+        

@@ -1,0 +1,82 @@
+var uuid = '110ec58a-a0f2-4ac4-8393-c866d813b8d1';
+
+import uuid
+uuid.uuid4()
+
+>>> UUID('f341ca39-73bb-4395-80b3-4330c3118cd4').hex
+'f341ca3973bb439580b34330c3118cd4'
+>>> len(UUID('f341ca39-73bb-4395-80b3-4330c3118cd4').hex)
+32
+
+
+UUID has 36 characters which makes it bulky.
+
+mysql
+=====================
+CREATE TABLE test_table (
+    pkey BINARY( 16 ) NULL ,
+    PRIMARY KEY (pkey)
+) ENGINE = INNODB ;
+
+INSERT INTO test_table(pkey) VALUES (UNHEX('f341ca3973bb439580b34330c3118cd4'));
+SELECT HEX(pkey) FROM test_table
+
+
+110E8400E29B11D4A716446655440000
+f341ca3973bb439580b34330c3118cd4
+
+mysql> CREATE TABLE test_table (
+    ->     pkey BINARY( 16 ) NULL ,
+    ->     PRIMARY KEY (pkey)
+    -> ) ENGINE = INNODB ;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> INSERT INTO test_table(pkey) VALUES (UNHEX('f341ca3973bb439580b34330c3118cd4'));
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT HEX(pkey) FROM test_table;
++----------------------------------+
+| HEX(pkey)                        |
++----------------------------------+
+| F341CA3973BB439580B34330C3118CD4 |
++----------------------------------+
+1 row in set (0.00 sec)
+
+
+reference doc
+=====================
+Since UUID is 128 bits and is written as hexadecimal, it's very easy to speed up and store the UUID.
+
+First, in your programming language remove the dashes
+
+From 110E8400-E29B-11D4-A716-446655440000 to 110E8400E29B11D4A716446655440000.
+
+Now it's 32 chars (like an MD5 hash, which this also works with).
+
+Since a single BINARY in MySQL is 8 bits in size, BINARY(16) is the size of a UUID (8*16 = 128).
+
+You can insert using:
+
+INSERT INTO Table (FieldBin) VALUES (UNHEX("110E8400E29B11D4A716446655440000"))
+
+and query using:
+
+SELECT HEX(FieldBin) AS FieldBin FROM Table
+
+Now in your programming language, re-insert the dashes at the positions 9, 14, 19 and 24 to match your original UUID. If the positions are always different you could store that info in a second field.
+
+Full example :
+
+CREATE TABLE  `test_table` (
+    `field_binary` BINARY( 16 ) NULL ,
+    PRIMARY KEY (  `field_binary` )
+) ENGINE = INNODB ;
+
+INSERT INTO  `test_table` (
+    `field_binary`
+)
+VALUES (
+    UNHEX(  '110E8400E29B11D4A716446655440000' )
+);
+
+SELECT HEX(field_binary) AS field_binary FROM `test_table`
