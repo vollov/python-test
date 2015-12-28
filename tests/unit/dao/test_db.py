@@ -1,11 +1,12 @@
 from dao.db import SessionManager, Base
 import logging, unittest
 
-from dao.db import SessionManager, Base
+from dao.db import SessionManager, Base, KeyUtil
 
 logger=logging.getLogger('pytest')
 
 from sqlalchemy import Column, Integer, String, BINARY
+
 class Customer(Base):
     __tablename__ = 'customer'
 
@@ -55,8 +56,10 @@ class TestSessionManager(unittest.TestCase):
         session = cls.session
 
         #session.add(Customer(name='Dave', phone='416-223-8652', address='9 King ST'))
-        pkid = KeyUtil.get_uuid4()
-        session.add(Customer(id = pkid, name='Leah', phone='416-216-7529', address='19 King ST'))
+        #pkid = KeyUtil.get_uuid4()
+        id_hex_str = 'f341ca3973bb439580b34330c3118cd4'
+
+        session.add(Customer(id = id_hex_str, name='Leah', phone='416-216-7529', address='19 King ST'))
         session.commit()
 
     @classmethod
@@ -74,6 +77,6 @@ class TestSessionManager(unittest.TestCase):
         session = self.session
         customers = session.query(Customer)
         for c in customers:
-            logger.debug('TestSessionManager query customer: {0}'.format(c.name))
+            logger.debug('TestSessionManager query customer: {0}:uuid={1}'.format(c.name, c.id))
         session.commit()
 

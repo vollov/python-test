@@ -5,6 +5,7 @@ uuid.uuid4()
 
 >>> UUID('f341ca39-73bb-4395-80b3-4330c3118cd4').hex
 'f341ca3973bb439580b34330c3118cd4'
+
 >>> len(UUID('f341ca39-73bb-4395-80b3-4330c3118cd4').hex)
 32
 
@@ -16,11 +17,24 @@ mysql
 CREATE TABLE test_table (
     pkey BINARY( 16 ) NULL ,
     PRIMARY KEY (pkey)
-) ENGINE = INNODB ;
+) ENGINE = INNODB;
+
+CREATE TABLE uuid_t (
+    id int(11) NOT NULL AUTO_INCREMENT,
+    code BINARY(16),
+    PRIMARY KEY (id)
+) ENGINE = INNODB;
 
 INSERT INTO test_table(pkey) VALUES (UNHEX('f341ca3973bb439580b34330c3118cd4'));
 SELECT HEX(pkey) FROM test_table
 
+INSERT INTO uuid_t(code) VALUES (UNHEX('f341ca3973bb439580b34330c3118cd4'));
+mysql> SELECT HEX(code) FROM uuid_t;
++----------------------------------+
+| HEX(pkey)                        |
++----------------------------------+
+| F341CA3973BB439580B34330C3118CD4 |
++----------------------------------+
 
 110E8400E29B11D4A716446655440000
 f341ca3973bb439580b34330c3118cd4
@@ -41,6 +55,30 @@ mysql> SELECT HEX(pkey) FROM test_table;
 | F341CA3973BB439580B34330C3118CD4 |
 +----------------------------------+
 1 row in set (0.00 sec)
+
+
+python code
+================================================
+import binascii
+import MySQLdb
+import uuid
+
+conn = MySQLdb.connect(host='localhost')
+
+key = uuid.uuid4()
+
+key.hex
+
+print 'inserting', repr(key.bytes)
+r = conn.cursor()
+r.execute('INSERT INTO xyz (id) VALUES (%s)', key.bytes)
+conn.commit()
+
+print 'selecting', repr(key.bytes)
+r.execute('SELECT added_id, id FROM xyz WHERE id = %s', key.bytes)
+for row in r.fetchall():
+    print row[0], binascii.b2a_hex(row[1])
+
 
 
 reference doc
