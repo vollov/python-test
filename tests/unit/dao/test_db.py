@@ -20,7 +20,9 @@ class Customer(Base):
 
 
 class TestSessionManager(unittest.TestCase):
-    
+    '''
+    Demo test to show how to use sql alchemy sessions
+    '''
     session = None
     engine =None
 
@@ -32,6 +34,12 @@ class TestSessionManager(unittest.TestCase):
         '''tear down test db'''
         pass
 
+    @classmethod
+    def add_customer(cls, name, phone, address):
+        pkid = KeyUtil.get_uuid()
+        customer = Customer(id=pkid.bytes, name=name, phone=phone, address=address)
+        return customer
+    
     @classmethod
     def setUpClass(cls):
         ''' 
@@ -54,12 +62,8 @@ class TestSessionManager(unittest.TestCase):
         # session.add_all() requires pk defined
         #cls.session.bulk_save_objects(customers)
         session = cls.session
-
-        #session.add(Customer(name='Dave', phone='416-223-8652', address='9 King ST'))
-        #pkid = KeyUtil.get_uuid4()
-        id_hex_str = 'f341ca3973bb439580b34330c3118cd4'
-
-        session.add(Customer(id = id_hex_str, name='Leah', phone='416-216-7529', address='19 King ST'))
+        customer = cls.add_customer('Dave', '416-223-8652', '9 King ST')
+        session.add(customer)
         session.commit()
 
     @classmethod

@@ -39,15 +39,36 @@ class SessionManager():
             cls.session = Session()
         return cls.session
 
+class DataTools():
+    '''
+    manage import and export database tables
+    '''
+    @classmethod
+    def export_table(cls, table_name):
+        '''
+        giving a table name export table as json file
+        '''
+        pass
+    
+    @classmethod
+    def import_table(cls, json_file_name):
+        '''
+        giving a json file name import table data
+        '''
+        pass
+    
 import uuid
 
 class KeyUtil:
     '''Utility class for pirmary key management'''
     
     @staticmethod
-    def get_uuid4():
-        '''get uuid4 as a char(32) so it can be stored as binary(16)'''
-        return uuid.uuid4().hex
+    def get_uuid():
+        '''return an UUID() object key.
+        
+        to get a char(32) hex string, call key.hex 
+        to get a binary(16) data, call key.bytes'''
+        return uuid.uuid4()
          
         
         

@@ -19,6 +19,12 @@ class TestCase(unittest.TestCase):
         #cls._connection.destroy()
 
     def setUp(self):
+        '''
+        method run when every test method starts
+        
+        1) create tables by fixture names
+        2) populate database with fixture json file 
+        '''
         logger.debug('TestCase.setUp()')
         if self.fixtures:
             logger.debug('TestCase.setUp() -> fixtures=' + ','.join(self.fixtures))
@@ -26,6 +32,10 @@ class TestCase(unittest.TestCase):
         #TODO: add code here to populate test database with fixtures
  
     def tearDown(self):
+        '''
+        method run when every test method terminates
+        1) drop tables by fixture names
+        '''
         logger.debug('TestCase.tearDown()')
         if self.fixtures:
             logger.debug('TestCase.tearDown() -> fixtures=' + ','.join(self.fixtures))
